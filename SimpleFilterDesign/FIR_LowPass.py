@@ -1,5 +1,5 @@
 import importlib
-from cmath import cos, pi, sin
+from cmath import cos, exp, log, log10, pi, sin
 import matplotlib.pyplot as mplt
 
 ##################### ##################### #####################
@@ -10,9 +10,9 @@ TWOPI = 2.0 * pi
 fs = 44100.0
 dt = 1.0 / fs
 
-BW = 0.032
+BW = 0.009
 
-fc = 7000.0
+fc = 1000.0
 fc /= fs
 wc = TWOPI * fc
 
@@ -43,7 +43,7 @@ for n in range(1, max):
         h[n] = sin(TWOPI * fc * (n - hm)) / (pi * (n - hm))
         h[n] *= w[n] 
 
-        sum += h[n]
+    sum += h[n]
 
 for s in range(1, max):
     h[s] /= sum
@@ -51,23 +51,25 @@ for s in range(1, max):
 ##################### ##################### #####################
 ##################### ##################### #####################
 
-startFrequency = 0.0
-endFrequency = 6024
-
-simulationLength = int( max * 5.0 )
-rateOfChange = (endFrequency - startFrequency) / simulationLength
+numberOfSeconds = 1
+simulationLength = int( numberOfSeconds * fs )
 
 sineSweepData = [0.0] * simulationLength
 
+startFrequency = 1.0
+endFrequency = 20000.0
+
+T = numberOfSeconds
+tempOne = TWOPI * startFrequency * T
+tempTwo = TWOPI * endFrequency * T
+tempThree = log( tempTwo / tempOne )
+tempFour = tempOne / tempThree
+
 time = 0.0
-currentFreq = 0.0
-for i in range( simulationLength ):
- 
-    sineSweepData[ i ] = sin( TWOPI * currentFreq * time )
-    currentFreq += rateOfChange
+for i in range( 0, simulationLength ):
+    sineSweepData[ i ] = sin( tempFour * (exp((time / T) * tempThree) - 1.0) )
     time += dt
 
-print(currentFreq)
 
 ##################### ##################### #####################
 ##################### ##################### #####################
