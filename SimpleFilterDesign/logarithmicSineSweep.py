@@ -12,7 +12,7 @@ TWOPI = pi * 2.0
 sampleRate = 44100.0
 dt = 1.0 / sampleRate
 
-numberOfSeconds = 5.0
+numberOfSeconds = 0.5
 
 simulationLengthInSamples = int( numberOfSeconds * sampleRate )
 
@@ -22,12 +22,12 @@ simulationLengthInSamples = int( numberOfSeconds * sampleRate )
 sineSweepData = [0.0] * simulationLengthInSamples
 
 startFrequency = 1.0
-endFrequency = 10000.0
+endFrequency = 100.0
 
 T = numberOfSeconds
 tempOne = TWOPI * startFrequency * T
 tempTwo = TWOPI * endFrequency * T
-tempThree = log10( tempTwo / tempOne )
+tempThree = log( tempTwo / tempOne )
 tempFour = tempOne / tempThree
 
 time = 0.0
