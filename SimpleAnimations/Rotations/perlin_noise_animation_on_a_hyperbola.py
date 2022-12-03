@@ -69,21 +69,18 @@ def expander(x, t, r):
     return ((x - t)/r) + t
 
 def animFunc(i):
-    global noiseArrayX, noiseArrayY, X, Y, noiseInc
+    global noiseArrayX, noiseArrayY, xA, yA, noiseInc, numSteps
 
     noiseInc += 1.0/40.0
     for q in range(numSteps):
         for y in range(numSteps):
-            noiseArrayX[q][y] = (Noise(xAxis[q]+noiseInc, yAxis[y], noiseInc))
+            noiseArrayX[q][y] = (Noise(2.5 * (xAxis[q] + 1.0) + noiseInc, (xAxis[y] + 1.0), 0))
     noiseArrayX = noiseArrayX / np.linalg.norm(noiseArrayX) 
 
-    Zx = noiseArrayX*(1.0 - (noiseArrayY**2.0)*0.5)**0.5; 
-    xA = X*(1.0 - (Y**2.0)*0.5)**0.5; yA = Y*(1.0 - (X**2.0)*0.5)**0.5
-
     ax.clear(); mplt.axis('off'); ax.set_xlim([-1.1, 1.1]); ax.set_ylim([-1.1, 1.1]); ax.dist=20; ax.axis('square')
-    ax.scatter(xA, yA, s=10.0*Zx, cmap='blues') 
+    ax.scatter(xA, yA, s=10.0*noiseArrayX, cmap='blues') 
 
-fig, ax = mplt.subplots(1,1, dpi=150); mplt.axis('off'); ax.set_xlim([-1.1, 1.1]); ax.set_ylim([-1.1, 1.1]); ax.dist=20
+fig, ax = mplt.subplots(1,1, dpi=200); mplt.axis('off'); ax.set_xlim([-1.1, 1.1]); ax.set_ylim([-1.1, 1.1]); ax.dist=20
 
 perm = np.arange(256); np.random.shuffle(perm); GradientSizeTable = 256; gradients = [0.0] * (GradientSizeTable * 3)
 
@@ -93,6 +90,8 @@ numSteps = 50; offset = 0.31; noiseInc = 0.0
 xAxis = np.linspace(-1.0, 1.0, num=numSteps); yAxis = np.linspace(-1.0, 1.0, num=numSteps); X,Y = np.meshgrid(xAxis, yAxis)
 noiseArrayX = np.zeros_like(X); noiseArrayY = np.zeros_like(X)
 
-animF = FuncAnimation(fig, func=animFunc, frames=np.linspace(0, 100, num=100), interval=1)
-animF.save('pNoise_Globe.gif')
+xA = X*(1.0 - (Y**2.0)*0.5)**0.5; yA = Y*(1.0 - (X**2.0)*0.5)**0.5
+
+animF = FuncAnimation(fig, func=animFunc, frames=np.linspace(0, 200, num=200), interval=1)
+animF.save('pNoise_Globe_longer.gif')
 mplt.show()
