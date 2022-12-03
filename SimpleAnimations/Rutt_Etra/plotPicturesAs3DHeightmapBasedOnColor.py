@@ -12,9 +12,9 @@ size = 2; rowsX = int(attribs[0]/size); rowsY = int(attribs[1]/size); heightMap 
 for i in range(rowsY):
     for j in range(rowsY):
         x = i * size; y = j * size
-        red = imageData[i][j][0]/255
-        green = imageData[i][j][1]/255
-        blue = imageData[i][j][2]/255
+        red = imageData[x][y][0]/255
+        green = imageData[x][y][1]/255
+        blue = imageData[x][y][2]/255
         heightMap[i][j] = (255 * ((red + green + blue)/3.0) )
 
 x = np.linspace(0, rowsY, rowsY); y = np.linspace(0, rowsY, rowsY); X, Y = np.meshgrid(x, y)
