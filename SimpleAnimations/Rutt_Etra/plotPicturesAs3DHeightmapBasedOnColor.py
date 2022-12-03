@@ -11,7 +11,7 @@ attribs = []; attribs = np.shape(imageData)
 size = 2; rowsX = int(attribs[0]/size); rowsY = int(attribs[1]/size); heightMap = np.zeros([rowsY, rowsY])
 for i in range(rowsY):
     for j in range(rowsY):
-        x = i * size; y = i * size
+        x = i * size; y = j * size
         red = imageData[i][j][0]/255
         green = imageData[i][j][1]/255
         blue = imageData[i][j][2]/255
